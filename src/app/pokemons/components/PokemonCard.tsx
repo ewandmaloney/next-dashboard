@@ -1,14 +1,21 @@
+"use client";
 import Link from "next/link";
-import { SinglePokemons } from "../interfaces/single-pokemons";
+import { SimplePokemon } from "../interfaces/simple-pokemon";
 import Image from "next/image";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { RootState, useAppDispatch, useAppSelector } from "@/store/store";
+import { addToFavorites, removeFromFavorites } from "@/store/pokemon/pokemonSlice";
 
 interface PokemonCardProps {
-  pokemon: SinglePokemons;
+  pokemon: SimplePokemon;
 }
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { id, name } = pokemon;
+  const favoritesPokemon = useAppSelector((state: RootState) => state.pokemon.pokemon);
+  const dispatch = useAppDispatch();
+
+  const isFavorite = favoritesPokemon.some((favorite) => favorite.id === id);
 
   return (
     <div className="mx-auto right-0 mt-2 w-60">
@@ -24,9 +31,7 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
             alt={""}
             priority={false}
           />
-          <p className="pt-2 text-lg font-semibold text-gray-50 capitalize">
-            {name}
-          </p>
+          <p className="pt-2 text-lg font-semibold text-gray-50 capitalize">{name}</p>
           <div className="mt-5">
             <Link
               href={`/dashboard/pokemon/${name}`}
@@ -37,19 +42,22 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           </div>
         </div>
         <div className="">
-          <Link
-            href="/dashboard/main"
-            className="px-4 py-2 hover:bg-gray-100 flex items-center"
-          >
-            <div className="text-red-600">
-              <IoHeartOutline />
+          <div className="px-4 py-2 hover:bg-gray-100 flex items-center">
+            <div className="text-red-600 cursor-pointer">
+              {isFavorite ? (
+                <IoHeart onClick={() => dispatch(removeFromFavorites(pokemon))} className="text-2xl" />
+              ) : (
+                <IoHeartOutline onClick={() => dispatch(addToFavorites(pokemon))} className="text-2xl" />
+              )}
             </div>
             <div className="pl-3">
-              <p className="text-sm font-medium text-gray-800 leading-none">
-                No es favorito
-              </p>
+              {isFavorite ? (
+                <p className="text-sm font-medium text-gray-800 leading-none">Es favorito</p>
+              ) : (
+                <p className="text-sm font-medium text-gray-800 leading-none">No es favorito</p>
+              )}
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

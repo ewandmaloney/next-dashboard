@@ -1,8 +1,8 @@
-import { SinglePokemons } from "../interfaces/single-pokemons";
+import { SimplePokemon } from "../interfaces/simple-pokemon";
 import PokemonCard from "./PokemonCard";
 
 interface PokemonGridProps {
-  pokemons: SinglePokemons[];
+  pokemons: SimplePokemon[];
 }
 
 const PokemonsGrid = ({ pokemons }: PokemonGridProps) => {

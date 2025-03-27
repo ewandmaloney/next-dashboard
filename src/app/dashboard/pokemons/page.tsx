@@ -1,11 +1,11 @@
 import PokemonsGrid from "@/app/pokemons/components/PokemonsGrid";
 import { PokemonsResponse } from "@/app/pokemons/interfaces/pokemons-response";
-import { SinglePokemons } from "@/app/pokemons/interfaces/single-pokemons";
+import { SimplePokemon } from "@/app/pokemons/interfaces/simple-pokemon";
 
 const getPokemons = async (
   limit = 20,
   offset = 0
-): Promise<SinglePokemons[]> => {
+): Promise<SimplePokemon[]> => {
   const response = await fetch(
     `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
   );
