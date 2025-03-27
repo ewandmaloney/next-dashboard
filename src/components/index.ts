@@ -1,2 +1,2 @@
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 export { Sidebar };
