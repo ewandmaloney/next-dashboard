@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SinglePokemons } from "../interfaces/single-pokemons";
 import PokemonCard from "./PokemonCard";
 
