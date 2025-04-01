@@ -6,22 +6,26 @@ export interface PokemonState {
   pokemon: SimplePokemon[];
 }
 
+const getInitialState = () => {
+  const favorites = JSON.parse(localStorage.getItem("favorite-pokemons") ?? "[]");
+  return favorites;
+};
+
 const initialState: PokemonState = {
-  pokemon: [],
+  pokemon: [...getInitialState()],
 };
 
 export const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
-    addPokemonsFromLocalStorage: (state, action: PayloadAction<SimplePokemon[]>) => {
-      state.pokemon = action.payload;
-    },
     addToFavorites: (state, action: PayloadAction<SimplePokemon>) => {
       state.pokemon.push(action.payload);
+      localStorage.setItem("favorite-pokemons", JSON.stringify(state.pokemon));
     },
     removeFromFavorites: (state, action: PayloadAction<SimplePokemon>) => {
       state.pokemon = state.pokemon.filter((pokemon) => pokemon.id !== action.payload.id);
+      localStorage.setItem("favorite-pokemons", JSON.stringify(state.pokemon));
     },
   },
 });
